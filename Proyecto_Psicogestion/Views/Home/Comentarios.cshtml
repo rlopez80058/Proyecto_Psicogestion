@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Comentarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Banner para encabezado -->
+<section id="banner" class="banner" style="min-height: 300px;">
+    <div class="bg-color">
+        <div class="container">
+            <div class="row">
+                <div class="banner-info text-center">
+                    <div class="banner-text">
+                        <h1 class="white">Dejanos tu testimonio</h1>
+                        <p class="white">Compartí tu experiencia con la psicóloga y ayudá a otros a conocer más sobre el acompañamiento terapéutico</p>
+                        <a href="#form-comentario" class="btn btn-appoint">Ir al formulario</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Formulario para comentarios -->
+<section id="form-comentario" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <!-- Título centrado -->
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <h2 class="service-title" style="margin-bottom: 25px;">Tu opinión es valiosa</h2>
+                <p class="sub-title" style="margin-bottom: 35px;">Completá los campos para dejar un mensaje de agradecimiento o comentario</p>
+            </div>
+
+            <!-- Formulario -->
+            <div class="col-md-6 col-md-offset-3">
+                <form method="post" action="@Url.Action("EnviarComentario", "Comentarios")" class="card-user">
+                    <div class="form-group">
+                        <label for="Nombre">Nombre</label>
+                        <input type="text" class="form-control br-radius-zero" id="Nombre" name="Nombre" placeholder="Tu nombre (opcional)" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Comentario">Comentario</label>
+                        <textarea class="form-control br-radius-zero" id="Comentario" name="Comentario" rows="5" placeholder="Escribí tu mensaje aquí..." required></textarea>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <label for="Calificacion">¿Cómo calificaría su experiencia?</label>
+                        <br />
+                        <span style="font-size: 24px; color: #f1c40f;">
+                            ★ ★ ★ ★ ★
+                        </span>
+                        <select name="Calificacion" class="form-control br-radius-zero" style="margin-top: 10px;" required>
+                            <option value="">Seleccioná una opción</option>
+                            <option value="5">Excelente (5 estrellas)</option>
+                            <option value="4">Muy buena (4 estrellas)</option>
+                            <option value="3">Buena (3 estrellas)</option>
+                            <option value="2">Regular (2 estrellas)</option>
+                            <option value="1">Mala (1 estrella)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-form btn-block">Enviar comentario</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

@@ -47,5 +47,17 @@ namespace Proyecto_Psicogestion.Controllers
             return View();
         }
 
+        public ActionResult Comentarios()
+        {
+            return View();
+        }
+
+
+
+        public ActionResult Formulario()
+        {
+            return View();
+        }
+
     }
 }
