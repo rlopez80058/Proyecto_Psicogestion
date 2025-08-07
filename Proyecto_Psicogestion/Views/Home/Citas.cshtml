@@ -1,22 +1,56 @@
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Agendar Cita";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
 }
 
-<section class="container mt-5">
-    <h2 class="mb-4">Módulo de Agenda de Citas</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card p-3">
-                <h5>Agendar Cita</h5>
-                <p>Seleccionar fecha, hora, tipo de sesión y motivo.</p>
-                <a href="#" class="btn btn-success">Agendar</a>
+<section id="banner" class="banner">
+    <div class="bg-color">
+        <div class="container">
+            <div class="row">
+                <div class="banner-info text-center">
+                    <div class="banner-text">
+                        <h1 class="white">Solicitá tu cita</h1>
+                        <p class="white">Completá el siguiente formulario para agendar tu consulta psicológica</p>
+                        <a href="#form-cita" class="btn btn-appoint">Ir al formulario</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card p-3">
-                <h5>Ver y Cancelar Citas</h5>
-                <p>Visualiza, cancela o reprograma citas agendadas.</p>
-                <a href="#" class="btn btn-danger">Gestionar</a>
+    </div>
+</section>
+
+<!-- Formulario de Citas -->
+<section id="form-cita" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <h2 class="service-title pad-bt15">Formulario de Cita</h2>
+                <p class="sub-title pad-bt15">Brindanos tus datos para coordinar tu atención</p>
+            </div>
+            <div class="col-md-6 col-md-offset-3">
+                <form method="post" action="#">
+                    <div class="form-group">
+                        <label for="nombre">Nombre completo</label>
+                        <input type="text" class="form-control br-radius-zero" id="nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo">Correo electrónico</label>
+                        <input type="email" class="form-control br-radius-zero" id="correo" placeholder="Tu correo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" class="form-control br-radius-zero" id="telefono" placeholder="Número de contacto">
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha preferida</label>
+                        <input type="date" class="form-control br-radius-zero" id="fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Motivo de la consulta</label>
+                        <textarea class="form-control br-radius-zero" id="mensaje" rows="4" placeholder="Contanos cómo te podemos ayudar..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-form">Enviar solicitud</button>
+                </form>
             </div>
         </div>
     </div>

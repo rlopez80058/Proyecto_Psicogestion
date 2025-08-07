@@ -20,7 +20,7 @@ namespace Proyecto_Psicogestion.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Contacto()
         {
             ViewBag.Message = "Your contact page.";
 
@@ -33,6 +33,16 @@ namespace Proyecto_Psicogestion.Controllers
         }
 
         public ActionResult Citas()
+        {
+            return View();
+        }
+
+        public ActionResult Login(string Email, string Password)
+        {
+            return View();
+        }
+
+        public ActionResult Registro(string Email, string Password)
         {
             return View();
         }
