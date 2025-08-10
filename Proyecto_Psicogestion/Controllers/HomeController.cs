@@ -59,5 +59,20 @@ namespace Proyecto_Psicogestion.Controllers
             return View();
         }
 
+        public ActionResult CertificadoRegalo()
+        {
+            return View();
+        }
+
+        public ActionResult Expedientes()
+        {
+            return View();
+        }
+
+        public ActionResult Pagos()
+        {
+            return View();
+        }
+
     }
 }

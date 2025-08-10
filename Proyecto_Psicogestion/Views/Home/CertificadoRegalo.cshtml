@@ -1,0 +1,236 @@
+﻿@{
+    ViewBag.Title = "Certificados de regalo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Hero / Encabezado -->
+<section class="section-padding" id="gift-hero" style="padding-top:40px">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 col-sm-7">
+                <h1 class="ser-title">Certificados de regalo</h1>
+                <hr class="botm-line">
+                <p>Regala bienestar con <strong>Psicogestión</strong>. Compra un certificado digital y entrégalo por correo o descárgalo en PDF. Puedes personalizar el monto, mensaje y diseño.</p>
+                <ul class="list-unstyled">
+                    <li><i class="fa fa-check"></i> Entrega inmediata por email o descarga.</li>
+                    <li><i class="fa fa-check"></i> Válido para citas y servicios seleccionados.</li>
+                    <li><i class="fa fa-check"></i> Vigencia: 12 meses desde la compra.</li>
+                </ul>
+            </div>
+            <div class="col-md-5 col-sm-5">
+                <div class="thumbnail" id="gift-preview" style="border-radius: 16px; overflow:hidden;">
+                    <div class="caption" style="padding:0">
+                        <div id="gift-preview-theme" style="height:140px; background:linear-gradient(135deg,#0cb8b6,#49d3d1);"></div>
+                        <div style="padding:20px">
+                            <h3 style="margin-top:0">Certificado de Regalo</h3>
+                            <p class="text-muted" style="margin:0">Para</p>
+                            <h4 id="prev-nombre" style="margin-top:4px">Nombre del destinatario</h4>
+                            <p class="text-muted" style="margin:0">De</p>
+                            <h5 id="prev-remitente" style="margin-top:4px">Tu nombre</h5>
+                            <hr>
+                            <div class="clearfix">
+                                <div class="pull-left">
+                                    <small class="text-muted">Monto</small>
+                                    <div id="prev-monto" style="font-size:22px; font-weight:700">₡0</div>
+                                </div>
+                                <div class="pull-right text-right">
+                                    <small class="text-muted">Código</small>
+                                    <div id="prev-codigo" style="font-family:monospace">PG-XXXX-XXXX</div>
+                                </div>
+                            </div>
+                            <p id="prev-mensaje" style="margin-top:14px; min-height:42px" class="text-muted">Mensaje personalizado aparecerá aquí…</p>
+                            <hr>
+                            <div class="small text-muted">
+                                Válido hasta <span id="prev-vigencia">—</span> • Solo en Psicogestión.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Formulario de compra -->
+<section id="gift-form" class="section-padding" style="padding-top:20px">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-8">
+                @using (Html.BeginForm("Certificados", "Home", FormMethod.Post, new { @class = "contactForm", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Monto">Monto (CRC)</label>
+                                <input type="number" class="form-control" id="Monto" name="Monto" min="5000" step="500" value="20000" required data-rule="min" data-msg="Ingrese un monto válido" />
+                                <small class="text-muted">Mínimo ₡5.000</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Plantilla">Diseño</label>
+                                <select class="form-control" id="Plantilla" name="Plantilla">
+                                    <option value="clasico">Clásico (turquesa)</option>
+                                    <option value="minimal">Minimal (gris)</option>
+                                    <option value="festivo">Festivo (degradado)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Destinatario">Nombre del destinatario</label>
+                                <input type="text" class="form-control" id="Destinatario" name="Destinatario" maxlength="80" required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Remitente">Tu nombre</label>
+                                <input type="text" class="form-control" id="Remitente" name="Remitente" maxlength="80" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Email">Enviar por correo a (opcional)</label>
+                                <input type="email" class="form-control" id="Email" name="Email" placeholder="destinatario@correo.com" />
+                                <small class="text-muted">Si no se indica, podrás descargar el PDF.</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="FechaEntrega">Fecha de entrega</label>
+                                <input type="date" class="form-control" id="FechaEntrega" name="FechaEntrega" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Mensaje">Mensaje personalizado</label>
+                        <textarea class="form-control" id="Mensaje" name="Mensaje" rows="3" maxlength="220" placeholder="Escribe un mensaje breve"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="MetodoEntrega">Método de entrega</label>
+                                <select class="form-control" id="MetodoEntrega" name="MetodoEntrega">
+                                    <option value="email">Correo electrónico</option>
+                                    <option value="pdf">Descargar PDF</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkbox" style="margin-top:28px">
+                                <label>
+                                    <input type="checkbox" id="Acepta" name="Acepta" required> Acepto términos y condiciones
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-action">
+                        <button type="submit" class="btn btn-form"><i class="fa fa-credit-card"></i> Comprar certificado</button>
+                        <a href="#gift-preview" class="btn btn-appoint" style="margin-left:8px">Ver vista previa</a>
+                    </div>
+                }
+
+                <div class="space" style="height:24px"></div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Preguntas frecuentes</strong></div>
+                    <div class="panel-body">
+                        <p><strong>¿Cómo lo recibo?</strong> Si eliges correo, enviaremos el certificado en PDF con un código único. Si eliges descarga, se generará el PDF al finalizar el pago.</p>
+                        <p><strong>¿En qué servicios aplica?</strong> En consultas y servicios habilitados por Psicogestión. No es canjeable por efectivo.</p>
+                        <p><strong>¿Cuál es la vigencia?</strong> 12 meses desde la compra.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+                <div class="service-info" style="margin-bottom:16px">
+                    <div class="icon"><i class="fa fa-lock"></i></div>
+                    <div class="icon-info">
+                        <h4>Pago seguro</h4>
+                        <p>Tus datos se procesan de forma segura. Nunca almacenamos información de tarjeta en el sitio.</p>
+                    </div>
+                </div>
+                <div class="service-info">
+                    <div class="icon"><i class="fa fa-gift"></i></div>
+                    <div class="icon-info">
+                        <h4>Personalizable</h4>
+                        <p>Agrega el nombre, monto y un mensaje especial. ¡Listo para enviar!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Script de vista previa / formateo -->
+<script>
+    (function () {
+        function crCRC(n) {
+            try {
+                return new Intl.NumberFormat('es-CR', { style: 'currency', currency: 'CRC', maximumFractionDigits: 0 }).format(n || 0);
+            } catch (e) { return '₡' + (n || 0); }
+        }
+        function addMonths(date, months) {
+            var d = new Date(date.getTime());
+            d.setMonth(d.getMonth() + months);
+            return d;
+        }
+        function fmtDate(d) {
+            return d.toLocaleDateString('es-CR', { year: 'numeric', month: 'short', day: '2-digit' });
+        }
+
+        var $monto = document.getElementById('Monto');
+        var $dest = document.getElementById('Destinatario');
+        var $remi = document.getElementById('Remitente');
+        var $msg = document.getElementById('Mensaje');
+        var $plant = document.getElementById('Plantilla');
+        var $fecha = document.getElementById('FechaEntrega');
+
+        function updatePreview() {
+            var monto = parseInt($monto.value || '0', 10);
+            document.getElementById('prev-monto').textContent = crCRC(monto);
+            document.getElementById('prev-nombre').textContent = $dest.value || 'Nombre del destinatario';
+            document.getElementById('prev-remitente').textContent = $remi.value || 'Tu nombre';
+            document.getElementById('prev-mensaje').textContent = $msg.value || 'Mensaje personalizado aparecerá aquí…';
+
+            var theme = document.getElementById('gift-preview-theme');
+            switch ($plant.value) {
+                case 'minimal':
+                    theme.style.background = 'linear-gradient(135deg,#4e555b,#adb5bd)';
+                    break;
+                case 'festivo':
+                    theme.style.background = 'linear-gradient(135deg,#ff8a00,#e52e71)';
+                    break;
+                default:
+                    theme.style.background = 'linear-gradient(135deg,#0cb8b6,#49d3d1)';
+            }
+
+            var compra = new Date();
+            var vig = addMonths(compra, 12);
+            document.getElementById('prev-vigencia').textContent = fmtDate(vig);
+
+            // Código ficticio
+            document.getElementById('prev-codigo').textContent = 'PG-' + (Math.random().toString(36).slice(2, 6).toUpperCase()) + '-' + (Math.random().toString(36).slice(2, 6).toUpperCase());
+        }
+
+        ['input', 'change', 'keyup'].forEach(function (evt) {
+            [$monto, $dest, $remi, $msg, $plant, $fecha].forEach(function (el) {
+                if (el) el.addEventListener(evt, updatePreview);
+            });
+        });
+
+        // Valor por defecto al cargar
+        document.addEventListener('DOMContentLoaded', updatePreview);
+        updatePreview();
+    })();
+</script>
+
