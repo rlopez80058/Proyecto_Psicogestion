@@ -1,6 +1,3 @@
-@{
-    Layout = null;
-}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,10 +9,12 @@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/Content/style.css" />
+    <link rel="stylesheet" href="~/Content/custom.css" />
+
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
-    <!-- Navbar trasladado desde Index.cshtml -->
+    <!-- Navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="col-md-12">
@@ -29,25 +28,63 @@
                         <img src="~/Content/img/logo.png" class="img-responsive" style="width: 140px; margin-top: -16px;" alt="Logo Medilab" />
                     </a>
                 </div>
-                <div class="collapse navbar-collapse navbar-right" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
-                        <li><a href="@Url.Action("Citas", "Home")">Citas</a></li>
-                        <li><a href="@Url.Action("Contacto", "Home")">Contacto</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#testimonial">Testimonial</a></li>
+
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="@(ViewContext.RouteData.Values["controller"] as string == "Home" && (ViewContext.RouteData.Values["action"] as string) == "Index" ? "active" : "")">
+                            <a href="@Url.Action("Index", "Home")">Home</a>
+                        </li>
+
+                        <li class="@(ViewContext.RouteData.Values["controller"] as string == "Home" && (ViewContext.RouteData.Values["action"] as string) == "Citas" ? "active" : "")">
+                            <a href="@Url.Action("Citas", "Home")">Citas</a>
+                        </li>
+
+                        <li class="@(ViewContext.RouteData.Values["controller"] as string == "Home" && (ViewContext.RouteData.Values["action"] as string) == "Acerca" ? "active" : "")">
+                            <a href="@Url.Action("Acerca", "Home")">Acerca de nosotros</a>
+                        </li>
+
+                        <li class="@(ViewContext.RouteData.Values["controller"] as string == "Home" && (ViewContext.RouteData.Values["action"] as string) == "Contacto" ? "active" : "")">
+                            <a href="@Url.Action("Contacto", "Home")">Contacto</a>
+                        </li>
+
+                        <!-- Pacientes (dropdown) -->
+                        <li class="dropdown @(ViewContext.RouteData.Values["controller"] as string == "Pacientes" ? "active" : "")">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Pacientes <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Pagos", "Pacientes")">Pagos</a></li>
+                                <li><a href="@Url.Action("TestAutoevaluado", "Pacientes")">Test autoevaluado</a></li>
+                                <li><a href="@Url.Action("CertificadoRegalo", "Pacientes")">Certificado de regalo</a></li>
+                                <li><a href="@Url.Action("Telemedicina", "Pacientes")">Telemedicina</a></li>
+                                <li><a href="@Url.Action("Testimonios", "Pacientes")">Testimonios</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestión (solo dropdown) -->
+                        <li class="dropdown @(ViewContext.RouteData.Values["controller"] as string == "Gestion" ? "active" : "")">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Gestión <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Planillas", "Gestion")">Planillas</a></li>
+                                <li><a href="@Url.Action("Expedientes", "Gestion")">Expedientes</a></li>
+                                <li><a href="@Url.Action("Usuarios", "Gestion")">Usuarios</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
+
             </div>
         </div>
     </nav>
 
-    <!-- Contenido dinámico de cada vista -->
+    <!-- Contenido de cada vista -->
     <div style="margin-top: 100px;">
         @RenderBody()
     </div>
 
-    <!-- Footer global para todo el sitio -->
+    <!-- Footer -->
     <footer id="footer">
         <div class="top-footer">
             <div class="container">
@@ -67,8 +104,8 @@
                         <div class="info-sec">
                             <ul class="quick-info">
                                 <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-circle"></i> Home</a></li>
-                                <li><a href="#service"><i class="fa fa-circle"></i> Servicios</a></li>
-                                <li><a href="#contact"><i class="fa fa-circle"></i> Citas</a></li>
+                                <li><a href="@Url.Action("Citas", "Home")"><i class="fa fa-circle"></i> Citas</a></li>
+                                <li><a href="@Url.Action("Contacto", "Home")"><i class="fa fa-circle"></i> Contacto</a></li>
                             </ul>
                         </div>
                     </div>
@@ -94,18 +131,13 @@
                     <div class="col-md-12 text-center">
                         © 2025 Psicogestión. Todos los derechos reservados.
                         <div class="credits">
-                            Sitio diseñado con ❤ usando la plantilla <a href="https://bootstrapmade.com/" target="_blank">Medilab</a>
+                            Sitio diseñado con ❤ usando la plantilla <a href="https://bootstrapmade.com/" target="_blank" rel="noopener">Medilab</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
     </footer>
-
-
 
     <!-- Botón flotante de Chat -->
     <div id="chatbot-float" style="position: fixed; bottom: 25px; right: 25px; z-index: 999;">
@@ -126,10 +158,30 @@
         }
     </script>
 
-
-    <!-- Scripts -->
+    <!-- Scripts (orden correcto) -->
     <script src="~/Scripts/jquery.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <!-- Hover para dropdowns (solo desktops ≥768px) -->
+    <script>
+        (function () {
+            function enableHoverDropdowns() {
+                if (window.matchMedia("(min-width: 768px)").matches) {
+                    $('.navbar .dropdown').off('mouseenter mouseleave').hover(
+                        function () { $(this).addClass('open'); },
+                        function () { $(this).removeClass('open'); }
+                    );
+                } else {
+                    // En móviles volvemos al comportamiento por click
+                    $('.navbar .dropdown').off('mouseenter mouseleave');
+                }
+            }
+            $(document).ready(enableHoverDropdowns);
+            $(window).on('resize', enableHoverDropdowns);
+        })();
+    </script>
+
+    <!-- Tu JS -->
     <script src="~/Scripts/custom.js"></script>
 </body>
 </html>
