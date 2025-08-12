@@ -1,0 +1,289 @@
+﻿@{
+    ViewBag.Title = "Planilla";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Columna y contenedor (misma lógica que arriba) */
+    .actions-col {
+        white-space: nowrap;
+        min-width: 140px;
+    }
+
+    .actions-wrap {
+        display: flex;
+        justify-content: center;
+    }
+
+        .actions-wrap .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+        }
+
+    /* Botón-ícono: tamaño fijo y centrado, SIN interferencia de .btn */
+    .icon-btn {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #fff; /* ícono en blanco */
+        border: 0;
+        box-shadow: none;
+        line-height: 1;
+        padding: 0; /* evita desalineado */
+        transition: transform .1s ease, filter .2s ease;
+    }
+
+        .icon-btn:hover {
+            filter: brightness(0.95);
+            text-decoration: none;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.98);
+        }
+
+    /* Variantes de color alineadas a tu paleta */
+    .icon-btn--view {
+        background: #0cb8b6;
+    }
+    /* como btn-form */
+    .icon-btn--edit {
+        background: #3498DB;
+    }
+    /* azul (ligeramente distinto) */
+    .icon-btn--delete {
+        background: #E74C3C;
+    }
+    /* rojo del footer .bgred */
+
+    /* Tamaño del ícono */
+    .icon-btn i {
+        font-size: 14px;
+        line-height: 1;
+    }
+</style>
+
+
+
+
+
+<!-- Banner -->
+<section id="banner" class="banner">
+    <div class="bg-color">
+        <div class="container">
+            <div class="row">
+                <div class="banner-info text-center">
+                    <div class="banner-text">
+                        <h1 class="white">Administración de Planilla</h1>
+                        <p class="white">Gestiona los pagos de tu equipo: salarios, bonos, deducciones y estados de pago.</p>
+                        <a href="#panel-planilla" class="btn btn-appoint">Ir al panel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Panel Planilla -->
+<section id="panel-planilla" class="section-padding">
+    <div class="container">
+
+        <!-- Tarjetas resumen -->
+        <div class="row">
+            <div class="col-md-3 col-sm-6 marb20">
+                <div class="testi-details">
+                    <h4 class="text-primary" style="margin:0 0 8px 0;"><i class="fa fa-users"></i> Empleados</h4>
+                    <p style="margin:0; font-size:22px; color:#333;">@ViewBag.TotalEmpleados ?? 12</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 marb20">
+                <div class="testi-details">
+                    <h4 class="text-primary" style="margin:0 0 8px 0;"><i class="fa fa-calendar"></i> Nómina (mes)</h4>
+                    <p style="margin:0; font-size:22px; color:#333;">₡ @String.Format("{0:N0}", ViewBag.TotalNominaMes ?? 3_450_000)</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 marb20">
+                <div class="testi-details">
+                    <h4 class="text-primary" style="margin:0 0 8px 0;"><i class="fa fa-check-circle"></i> Pagado</h4>
+                    <p style="margin:0; font-size:22px; color:#333;">₡ @String.Format("{0:N0}", ViewBag.TotalPagado ?? 2_800_000)</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 marb20">
+                <div class="testi-details">
+                    <h4 class="text-primary" style="margin:0 0 8px 0;"><i class="fa fa-clock-o"></i> Pendiente</h4>
+                    <p style="margin:0; font-size:22px; color:#333;">₡ @String.Format("{0:N0}", ViewBag.TotalPendiente ?? 650_000)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Acciones y filtros -->
+        <div class="row" style="margin-bottom:20px;">
+            <div class="col-md-6 col-sm-6">
+                <div class="btn-group" role="group" style="display:flex; gap:10px;">
+                    <a href="@Url.Action("CrearEmpleado","Planilla")" class="btn btn-appoint">
+                        <i class="fa fa-user-plus"></i> Agregar empleado
+                    </a>
+                    <button type="button" class="btn btn-appoint" data-toggle="modal" data-target="#modalPago">
+                        <i class="fa fa-money"></i> Registrar pago
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+                <form method="get" action="@Url.Action("Index","Planilla")" class="form-inline pull-right">
+                    <div class="form-group">
+                        <label for="mes" style="margin-right:6px;">Mes</label>
+                        <input id="mes" name="mes" type="month" class="form-control br-radius-zero" value="@Request["mes"]" />
+                    </div>
+                    <div class="form-group" style="margin-left:8px;">
+                        <label for="estado" style="margin-right:6px;">Estado</label>
+                        <select id="estado" name="estado" class="form-control br-radius-zero">
+                            <option value="">Todos</option>
+                            <option value="Pagado" @(Request["estado"] == "Pagado" ? "selected" : "")>Pagado</option>
+                            <option value="Pendiente" @(Request["estado"] == "Pendiente" ? "selected" : "")>Pendiente</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-form" style="margin-left:8px;">Filtrar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabla de planilla -->
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="ser-title">Planilla del Mes</h2>
+                <hr class="botm-line">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" style="background:#fff;">
+                        <thead>
+                            <tr>
+                                <th>Empleado</th>
+                                <th>Puesto</th>
+                                <th>Salario Base</th>
+                                <th>Horas Extra</th>
+                                <th>Bonos</th>
+                                <th>Deducciones</th>
+                                <th>Neto</th>
+                                <th>Estado</th>
+                                <th>Fecha de Pago</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @* Ejemplo estático. Reemplazar por tu modelo *@
+                            @{
+                                var filasDemo = new[] {
+                            new {Empleado="María López", Puesto="Psicóloga Clínica", Base=850000, Extra=50000, Bonos=60000, Dedu=40000, Neto=920000, Estado="Pagado", Fecha="2025-08-10"},
+                            new {Empleado="Carlos Méndez", Puesto="Recepción", Base=450000, Extra=20000, Bonos=15000, Dedu=10000, Neto=475000, Estado="Pendiente", Fecha="—"},
+                            new {Empleado="Ana Rojas", Puesto="Psicopedagoga", Base=650000, Extra=0, Bonos=30000, Dedu=20000, Neto=660000, Estado="Pagado", Fecha="2025-08-08"}
+                        };
+                            }
+                            @foreach (var e in filasDemo)
+                            {
+                                <tr>
+                                    <td>@e.Empleado</td>
+                                    <td>@e.Puesto</td>
+                                    <td>₡ @String.Format("{0:N0}", e.Base)</td>
+                                    <td>₡ @String.Format("{0:N0}", e.Extra)</td>
+                                    <td>₡ @String.Format("{0:N0}", e.Bonos)</td>
+                                    <td>₡ @String.Format("{0:N0}", e.Dedu)</td>
+                                    <td><strong>₡ @String.Format("{0:N0}", e.Neto)</strong></td>
+                                    <td>
+                                        @if (e.Estado == "Pagado")
+                                        {
+                                            <span class="label label-success">Pagado</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-warning">Pendiente</span>
+                                        }
+                                    </td>
+                                    <td class="text-center actions-col">
+                                        <div class="actions-wrap">
+                                            <div class="btn-group" role="group" aria-label="Acciones">
+                                                <a href="@Url.Action("Detalle","Planilla", new { id = 1 })"
+                                                   class="icon-btn icon-btn--view" title="Ver">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <a href="@Url.Action("Editar","Planilla", new { id = 1 })"
+                                                   class="icon-btn icon-btn--edit" title="Editar">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                                <a href="@Url.Action("Eliminar","Planilla", new { id = 1 })"
+                                                   class="icon-btn icon-btn--delete" title="Eliminar"
+                                                   onclick="return confirm('¿Eliminar registro?');">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: Registrar Pago -->
+        <div id="modalPago" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalPagoLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="border-radius:0;">
+                    <div class="modal-header" style="background:#0cb8b6; color:#fff;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#fff;opacity:1;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="modalPagoLabel"><i class="fa fa-money"></i> Registrar pago</h4>
+                    </div>
+                    <div class="modal-body">
+                        @* Reemplaza por tu modelo fuertemente tipado si lo deseas *@
+                        <form method="post" action="@Url.Action("RegistrarPago","Planilla")">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <label>Empleado</label>
+                                <select name="EmpleadoId" class="form-control br-radius-zero" required>
+                                    <option value="">Seleccione…</option>
+                                    <option value="1">María López</option>
+                                    <option value="2">Carlos Méndez</option>
+                                    <option value="3">Ana Rojas</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Mes</label>
+                                <input type="month" name="Mes" class="form-control br-radius-zero" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Monto Neto (₡)</label>
+                                <input type="number" name="MontoNeto" class="form-control br-radius-zero" min="0" step="1000" placeholder="0" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Fecha de pago</label>
+                                <input type="date" name="FechaPago" class="form-control br-radius-zero" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Método</label>
+                                <select name="Metodo" class="form-control br-radius-zero" required>
+                                    <option>Transferencia</option>
+                                    <option>Efectivo</option>
+                                    <option>Depósito</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Observaciones</label>
+                                <textarea name="Notas" rows="3" class="form-control br-radius-zero" placeholder="Notas del pago (opcional)"></textarea>
+                            </div>
+                            <div class="text-right">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-form">Guardar pago</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>

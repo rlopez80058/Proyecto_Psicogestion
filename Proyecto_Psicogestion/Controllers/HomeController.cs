@@ -74,5 +74,10 @@ namespace Proyecto_Psicogestion.Controllers
             return View();
         }
 
+        public ActionResult Planilla()
+        {
+            return View();
+        }
+
     }
 }
