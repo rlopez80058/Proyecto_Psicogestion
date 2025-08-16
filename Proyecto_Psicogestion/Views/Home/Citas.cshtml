@@ -1,23 +1,84 @@
 @{
     ViewBag.Title = "Agendar Cita";
-    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<!-- Estilos inline: posiciona la flecha y centra el scroll -->
+<style>
+  /* Contexto del banner y espacio para la flecha */
+  #banner.banner { position: relative; min-height: 650px; }
+  #banner .bg-color { min-height: 650px; }
+
+  #banner .banner-info{
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0 140px;    /* aire inferior para que la flecha no se solape */
+    z-index: 2;               /* contenido por encima de la flecha */
+    text-align: center;
+  }
+
+  #banner .banner-text h1.white{ margin-bottom: 8px; }
+  #banner .btn-appoint{ margin-top: 12px; }
+
+  /* Flecha anclada al fondo del banner, centrada y clickeable */
+  #banner .overlay-detail{
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    z-index: 1;
+    text-align: center;
+  }
+  #banner .overlay-detail a{
+    display: inline-block;
+    padding: 6px;      /* área de click cómoda */
+    line-height: 1;
+  }
+  /* Anula estilos del tema que ponían el ícono en absolute */
+  #banner .overlay-detail a i{
+    position: static !important;
+    bottom: auto !important;
+    margin: 0;
+    font-size: 38px;
+    color: #fff;
+  }
+
+  /* Suaviza anclas normales y protege contra navbar fija si se usara scroll por hash */
+  html { scroll-behavior: auto; }
+  #form-cita { scroll-margin-top: 90px; }
+
+ 
+</style>
 
 <section id="banner" class="banner">
     <div class="bg-color">
         <div class="container">
             <div class="row">
                 <div class="banner-info text-center">
+                    <div class="banner-logo text-center">
+                        <img src="~/Content/img/logo.png" class="img-responsive">
+                    </div>
                     <div class="banner-text">
                         <h1 class="white">Solicite su cita</h1>
                         <p class="white">Complete el siguiente formulario para agendar su consulta psicológica</p>
-                        <a href="#form-cita" class="btn btn-appoint">Ir al formulario</a>
+                        <a href="#form-cita" class="btn btn-appoint" id="btn-ir-form">Ir al formulario</a>
                     </div>
+                </div>
+
+                <!-- Flecha: hermano de .banner-info para evitar solapes -->
+                <div class="overlay-detail text-center">
+                    <a href="#form-cita" id="arrow-ir-form"><i class="fa fa-angle-down"></i></a>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+
 
 <!-- Formulario de Citas -->
 <section id="form-cita" class="section-padding">
@@ -25,7 +86,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-center">
                 <h2 class="service-title pad-bt15">Formulario de Cita</h2>
-                <p class="sub-title pad-bt15">Brindenos sus datos para coordinar su atención</p>
+                <p class="sub-title pad-bt15">Bríndenos sus datos para coordinar su atención</p>
             </div>
             <div class="col-md-6 col-md-offset-3">
                 <form method="post" action="#">
@@ -47,7 +108,7 @@
                     </div>
                     <div class="form-group">
                         <label for="mensaje">Motivo de la consulta</label>
-                        <textarea class="form-control br-radius-zero" id="mensaje" rows="4" placeholder="Cómo le podemos ayudar..."></textarea>
+                        <textarea class="form-control br-radius-zero" id="mensaje" rows="4" placeholder="¿Cómo le podemos ayudar?"></textarea>
                     </div>
                     <button type="submit" class="btn btn-form">Enviar solicitud</button>
                 </form>
@@ -55,3 +116,46 @@
         </div>
     </div>
 </section>
+
+<!-- Script: desplaza al CENTRO del formulario (respeta navbar fija) -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  function scrollToCenter(selector){
+    const target = document.querySelector(selector);
+    if (!target) return;
+
+    const header = document.querySelector('.navbar.navbar-fixed-top');
+    const headerH = header ? header.offsetHeight : 0;
+
+    const rect = target.getBoundingClientRect();
+    const targetTop = window.pageYOffset + rect.top;
+
+    // Posición para centrar el objetivo en el viewport
+    const centerY = targetTop + (target.offsetHeight / 2) - (window.innerHeight / 2) - headerH;
+
+    // Limita dentro del documento
+    const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const finalY = Math.min(Math.max(0, centerY), maxY);
+
+    window.scrollTo({ top: finalY, behavior: 'smooth' });
+
+    // Accesibilidad: foco sin salto
+    target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  }
+
+  const arrow = document.getElementById('arrow-ir-form');
+  const btn   = document.getElementById('btn-ir-form');
+
+  [arrow, btn].forEach(el => {
+    if (!el) return;
+    el.addEventListener('click', function(e){
+      const href = this.getAttribute('href') || '';
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        scrollToCenter(href);
+      }
+    });
+  });
+});
+</script>

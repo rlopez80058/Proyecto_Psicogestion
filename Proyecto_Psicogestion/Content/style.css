@@ -60,10 +60,25 @@ hr.botm-line {
 /***************************************
 banner
 ***************************************/
+
+.navbar-header {
+    display: flex;
+    align-items: center; /* Alinea verticalmente todo lo que está dentro */
+}
+
+.logo-navbar {
+    height: 150px; /* o 70px si el logo es pequeño */
+    width: auto;
+    margin-top: -60px; /* Sube el logo hacia arriba */
+    display: inline-block;
+}
+
+
 .navbar {
     margin-bottom: 0px;
     border: 0px;
 }
+
 .navbar {
     border-radius: 0px;
 }
@@ -598,21 +613,13 @@ footer
             box-shadow: 0 6px 14px rgba(12, 184, 182, 0.4);
         }
 
-    /* Responsive */
-    @media (max-width: 767px) {
-        .card-user {
-            margin-bottom: 20px;
-        }
-
-        .btn-add-user {
-            display: block;
-            width: 100%;
-            text-align: center;
-        }
-    }
-
 
 
    
 
-}
+   
+    }
+
+
+   
+   

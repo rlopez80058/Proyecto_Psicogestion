@@ -66,6 +66,45 @@
         font-size: 14px;
         line-height: 1;
     }
+
+    /* Mantén el banner centrado y con buen espacio */
+    #banner .banner-info {
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 0;
+    }
+
+    /* Coloca la flecha DEBAJO del botón (en flujo normal) */
+    #banner .overlay-detail {
+        margin-top: 12px; /* separación respecto al botón */
+        text-align: center;
+    }
+
+        #banner .overlay-detail a {
+            display: inline-block;
+            padding: 6px; /* área de click cómoda */
+            line-height: 1;
+        }
+
+            #banner .overlay-detail a i {
+                position: static !important; /* anula el absolute del tema */
+                bottom: auto !important;
+                margin: 0;
+                font-size: 38px;
+                color: #fff;
+            }
+
+    /* Suavizar desplazamiento y evitar que la navbar tape el inicio del formulario */
+    html {
+        scroll-behavior: auto;
+    }
+
+    #contacto {
+        scroll-margin-top: 90px;
+    }
 </style>
 
 
@@ -77,11 +116,17 @@
     <div class="bg-color">
         <div class="container">
             <div class="row">
-                <div class="banner-info text-center">
-                    <div class="banner-text">
+                <div class="banner-info">
+                    <div class="banner-logo text-center">
+                        <img src="~/Content/img/logo.png" class="img-responsive">
+                    </div>
+                    <div class="banner-text text-center">
                         <h1 class="white">Administración de Planilla</h1>
-                        <p class="white">Gestiona los pagos de tu equipo: salarios, bonos, deducciones y estados de pago.</p>
+                        <p class="white">Gestione los pagos de tu equipo: salarios, bonos, deducciones y estados de pago.</p>
                         <a href="#panel-planilla" class="btn btn-appoint">Ir al panel</a>
+                    </div>
+                    <div class="overlay-detail text-center">
+                        <a href="#contacto"><i class="fa fa-angle-down"></i></a>
                     </div>
                 </div>
             </div>
@@ -287,3 +332,5 @@
                 </div>
             </div>
         </div>
+    </div>
+        </section>

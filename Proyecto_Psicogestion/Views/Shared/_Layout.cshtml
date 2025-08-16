@@ -25,8 +25,9 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                        <img src="~/Content/img/logo.png" class="img-responsive" style="width: 140px; margin-top: -16px;" alt="Logo Medilab" />
+                        <img src="~/Content/img/logo.png" alt="Logo Psicogestión" class="logo-navbar" />
                     </a>
+
                 </div>
 
                 <div class="collapse navbar-collapse" id="myNavbar">
@@ -39,10 +40,6 @@
                             <a href="@Url.Action("Citas", "Home")">Citas</a>
                         </li>
 
-                        <li class="@(ViewContext.RouteData.Values["controller"] as string == "Home" && (ViewContext.RouteData.Values["action"] as string) == "Acerca" ? "active" : "")">
-                            <a href="@Url.Action("Acerca", "Home")">Acerca de nosotros</a>
-                        </li>
-
                         <li class="@(ViewContext.RouteData.Values["controller"] as string == "Home" && (ViewContext.RouteData.Values["action"] as string) == "Contacto" ? "active" : "")">
                             <a href="@Url.Action("Contacto", "Home")">Contacto</a>
                         </li>
@@ -53,11 +50,11 @@
                                 Pacientes <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("Pagos", "Pacientes")">Pagos</a></li>
+                                <li><a href="@Url.Action("Pagos", "Home")">Pagos</a></li>
                                 <li><a href="@Url.Action("TestAutoevaluado", "Pacientes")">Test autoevaluado</a></li>
-                                <li><a href="@Url.Action("CertificadoRegalo", "Pacientes")">Certificado de regalo</a></li>
+                                <li><a href="@Url.Action("CertificadoRegalo", "Home")">Certificado de regalo</a></li>
                                 <li><a href="@Url.Action("Telemedicina", "Pacientes")">Telemedicina</a></li>
-                                <li><a href="@Url.Action("Testimonios", "Pacientes")">Testimonios</a></li>
+                                <li><a href="@Url.Action("Comentarios", "Home")">Testimonios</a></li>
                             </ul>
                         </li>
 
@@ -67,9 +64,9 @@
                                 Gestión <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("Planillas", "Gestion")">Planillas</a></li>
-                                <li><a href="@Url.Action("Expedientes", "Gestion")">Expedientes</a></li>
-                                <li><a href="@Url.Action("Usuarios", "Gestion")">Usuarios</a></li>
+                                <li><a href="@Url.Action("Planilla", "Home")">Planillas</a></li>
+                                <li><a href="@Url.Action("Expedientes", "Home")">Expedientes</a></li>
+                                <li><a href="@Url.Action("Usuarios", "Home")">Usuarios</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -94,7 +91,7 @@
                             <h4 class="white no-padding">Sobre Nosotros</h4>
                         </div>
                         <div class="info-sec">
-                            <p>Praesent convallis tortor et enim laoreet, vel consectetur purus latoque penatibus et dis parturient.</p>
+                            <p>Psicogestión nació con el objetivo de brindar herramientas accesibles, profesionales y humanas para acompañarte en tu salud mental..</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-4 marb20">

@@ -3,6 +3,47 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    /* Mantén el banner centrado y con buen espacio */
+    #banner .banner-info {
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 0;
+    }
+
+    /* Coloca la flecha DEBAJO del botón (en flujo normal) */
+    #banner .overlay-detail {
+        margin-top: 12px; /* separación respecto al botón */
+        text-align: center;
+    }
+
+        #banner .overlay-detail a {
+            display: inline-block;
+            padding: 6px; /* área de click cómoda */
+            line-height: 1;
+        }
+
+            #banner .overlay-detail a i {
+                position: static !important; /* anula el absolute del tema */
+                bottom: auto !important;
+                margin: 0;
+                font-size: 38px;
+                color: #fff;
+            }
+
+    /* Suavizar desplazamiento y evitar que la navbar tape el inicio del formulario */
+    html {
+        scroll-behavior: auto;
+    }
+
+    #contacto {
+        scroll-margin-top: 90px;
+    }
+</style>
+
 <!--banner-->
 <section id="banner" class="banner">
     <div class="bg-color">

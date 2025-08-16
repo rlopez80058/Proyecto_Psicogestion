@@ -3,6 +3,42 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+  /* Mantén el banner centrado y con buen espacio */
+  #banner .banner-info{
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0;
+  }
+
+  /* Coloca la flecha DEBAJO del botón (en flujo normal) */
+  #banner .overlay-detail{
+    margin-top: 12px;              /* separación respecto al botón */
+    text-align: center;
+  }
+  #banner .overlay-detail a{
+    display: inline-block;
+    padding: 6px;                  /* área de click cómoda */
+    line-height: 1;
+  }
+  #banner .overlay-detail a i{
+    position: static !important;   /* anula el absolute del tema */
+    bottom: auto !important;
+    margin: 0;
+    font-size: 38px;
+    color: #fff;
+  }
+
+  /* Suavizar desplazamiento y evitar que la navbar tape el inicio del formulario */
+  html { scroll-behavior: auto; }
+  #contacto { scroll-margin-top: 90px; }
+
+ 
+</style>
+
 <!--banner contacto-->
 <section id="banner" class="banner">
     <div class="bg-color">
@@ -13,9 +49,10 @@
                         <img src="~/Content/img/logo.png" class="img-responsive">
                     </div>
                     <div class="banner-text text-center">
-                        <h1 class="white">Contáctanos</h1>
-                        <p>Estamos aquí para ayudarte. Llena el formulario y nos pondremos en contacto contigo.</p>
+                        <h1 class="white">Contáctenos</h1>
+                        <p>Estamos aquí para ayudarle. Llene el formulario y nos pondremos en contacto con usted.</p>
                         <a href="#contacto" class="btn btn-appoint">Ir al formulario</a>
+
                     </div>
                     <div class="overlay-detail text-center">
                         <a href="#contacto"><i class="fa fa-angle-down"></i></a>
@@ -31,7 +68,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="ser-title">Contáctanos</h2>
+                <h2 class="ser-title">Contáctenos</h2>
                 <hr class="botm-line">
             </div>
 
@@ -47,7 +84,7 @@
 
             <div class="col-md-8 col-sm-8 marb20">
                 <div class="contact-info">
-                    <h3 class="cnt-ttl">¿Tienes alguna consulta o deseas agendar una cita?</h3>
+                    <h3 class="cnt-ttl">¿Tiene alguna consulta o deseas agendar una cita?</h3>
                     <div class="space"></div>
 
                     <form action="" method="post" role="form" class="contactForm">
