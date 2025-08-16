@@ -1,0 +1,269 @@
+﻿@{
+    ViewBag.Title = "Telemedicina";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- ====== Estilos inline de la vista (solo visual) ====== -->
+<style>
+  /* Banner y contenido */
+  #banner.banner { position: relative; min-height: 650px; }
+  #banner .bg-color { min-height: 650px; }
+  #banner .banner-info{
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0 140px; /* aire inferior para flecha */
+    text-align: center;
+    z-index: 2;
+  }
+  #banner .banner-text h1.white{ margin-bottom: 8px; }
+  #banner .btn-appoint{ margin-top: 12px; }
+
+  /* Flecha anclada al fondo del banner */
+  #banner .overlay-detail{
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    z-index: 1; /* por debajo del contenido */
+    text-align: center;
+  }
+  #banner .overlay-detail a{ display:inline-block; padding:6px; line-height:1; }
+  #banner .overlay-detail a i{
+    position: static !important; bottom:auto !important; margin:0;
+    font-size: 38px; color:#fff;
+  }
+
+  /* Anclas: suavizado y protección contra navbar fija */
+  html { scroll-behavior: auto; }
+  #telemedicina, #requisitos, #faq { scroll-margin-top: 90px; }
+
+  /* Tarjetas y bloques visuales */
+  .tm-feature { background:#fff; border:1px solid #eaeaea; border-radius:10px; padding:24px; margin-bottom:24px; box-shadow: 0 6px 16px rgba(0,0,0,.06); }
+  .tm-feature .icon { font-size:36px; color:#0cb8b6; margin-bottom:10px; }
+  .tm-feature h4 { margin:6px 0 10px; font-weight:600; }
+  .tm-step { background:linear-gradient(180deg,#ffffff,#f7fbfb); border:1px solid #e8eeee; border-radius:12px; padding:18px; margin-bottom:18px; box-shadow:0 6px 18px rgba(0,0,0,.05); position:relative; }
+  .tm-step .num { position:absolute; top:-12px; left:-12px; background:#0cb8b6; color:#fff; border-radius:999px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:700; }
+
+  /* details/summary (FAQ) */
+  details.tm-faq { background:#fff; border:1px solid #eaeaea; border-radius:10px; padding:14px 18px; margin:10px 0; box-shadow: 0 4px 12px rgba(0,0,0,.04); }
+  details.tm-faq > summary { cursor:pointer; font-weight:600; list-style:none; }
+  details.tm-faq > summary::-webkit-details-marker{ display:none; }
+  details.tm-faq[open]{ border-color:#d7f1f0; box-shadow:0 6px 16px rgba(12,184,182,.12); }
+  details.tm-faq p{ margin:10px 0 0; }
+
+  /* CTA final */
+  #cta-tele { background:#104a56; color:#fff; padding:50px 0; text-align:center; }
+  #cta-tele .btn-appoint { background: rgba(12,184,182,0.95); }
+
+ 
+</style>
+
+<!-- ====== Banner ====== -->
+<section id="banner" class="banner">
+    <div class="bg-color">
+        <div class="container">
+            <div class="row">
+                <div class="banner-info">
+                    <div class="banner-logo text-center">
+                        <img src="~/Content/img/logo.png" class="img-responsive" alt="Psicogestión">
+                    </div>
+                    <div class="banner-text text-center">
+                        <h1 class="white">Telemedicina</h1>
+                        <p class="white">Atención psicológica en línea, segura y confidencial — desde donde estés.</p>
+                        <div class="btn-group" role="group" aria-label="Acciones telemedicina">
+                            <a href="@Url.Action("Citas","Home")" class="btn btn-appoint" id="btn-agendar-virtual">Agendar cita virtual</a>
+                            <a href="#telemedicina" class="btn btn-appoint" id="btn-como-funciona" style="margin-left:8px; background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.35);">Cómo funciona</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Flecha al contenido -->
+                <div class="overlay-detail text-center">
+                    <a href="#telemedicina" id="arrow-tele"><i class="fa fa-angle-down"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== Sección principal: ¿Qué es / Beneficios ====== -->
+<section id="telemedicina" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="ser-title">Atención psicológica en línea</h2>
+                <hr class="botm-line">
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+                <div class="tm-feature text-center">
+                    <div class="icon"><i class="fa fa-shield"></i></div>
+                    <h4>Segura y confidencial</h4>
+                    <p>Sesiones privadas con profesionales, bajo estándares de confidencialidad y buenas prácticas.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="tm-feature text-center">
+                    <div class="icon"><i class="fa fa-laptop"></i></div>
+                    <h4>Accesible desde cualquier lugar</h4>
+                    <p>Conéctese desde su computadora o celular, sin desplazamientos ni tiempos de espera.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="tm-feature text-center">
+                    <div class="icon"><i class="fa fa-clock-o"></i></div>
+                    <h4>Horarios flexibles</h4>
+                    <p>Encuentre espacios compatibles con su rutina diaria y mantenga la continuidad terapéutica.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== Cómo funciona ====== -->
+<section id="como-funciona" class="section-padding" style="background:#f6fafb;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="ser-title">¿Cómo funciona?</h2>
+                <hr class="botm-line">
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="tm-step">
+                    <div class="num">1</div>
+                    <h4>Reserva</h4>
+                    <p>Seleccione fecha y hora desde <a class="site-link" href="@Url.Action("Citas","Home")">Agendar Cita</a>.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="tm-step">
+                    <div class="num">2</div>
+                    <h4>Confirmación</h4>
+                    <p>Recibirá un correo con los detalles y recomendaciones para su sesión.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="tm-step">
+                    <div class="num">3</div>
+                    <h4>Ingreso</h4>
+                    <p>El día y hora acordados, ingrese con el enlace enviado por el equipo.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="tm-step">
+                    <div class="num">4</div>
+                    <h4>Sesión</h4>
+                    <p>Conéctese en un espacio privado y tranquilo para el mejor aprovechamiento.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== Requisitos técnicos ====== -->
+<section id="requisitos" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="ser-title">Requisitos técnicos</h2>
+                <hr class="botm-line">
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+                <ul class="quick-info" style="margin-top:8px;">
+                    <li><i class="fa fa-check"></i> Conexión estable a Internet (ideal &ge; 10 Mbps).</li>
+                    <li><i class="fa fa-check"></i> Dispositivo con cámara y micrófono (PC, tablet o smartphone).</li>
+                    <li><i class="fa fa-check"></i> Auriculares recomendados para mayor privacidad.</li>
+                    <li><i class="fa fa-check"></i> Espacio tranquilo y con buena iluminación.</li>
+                    <li><i class="fa fa-check"></i> Correo electrónico para recibir confirmaciones.</li>
+                </ul>
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+                <div class="tm-feature">
+                    <h4>Consejos útiles</h4>
+                    <p>Conéctese 5–10 minutos antes para probar audio y video. Cierre aplicaciones que usen cámara o micrófono.</p>
+                    <a href="#faq" class="site-link">Ver preguntas frecuentes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FAQ ====== -->
+<section id="faq" class="section-padding" style="background:#f6fafb;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="ser-title">Preguntas frecuentes</h2>
+                <hr class="botm-line">
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <details class="tm-faq">
+                    <summary>¿La telemedicina es igual de efectiva que la atención presencial?</summary>
+                    <p>Para muchos casos, la atención en línea ofrece resultados comparables a la presencial, con el beneficio de mayor accesibilidad y continuidad.</p>
+                </details>
+                <details class="tm-faq">
+                    <summary>¿Cómo recibo el enlace de la sesión?</summary>
+                    <p>Tras confirmar la cita, recibirá un correo con el enlace y las instrucciones. También podemos enviarlo por WhatsApp si lo prefiere.</p>
+                </details>
+                <details class="tm-faq">
+                    <summary>¿Qué pasa si tengo problemas de conexión?</summary>
+                    <p>Si se interrumpe la llamada, intentaremos reconectar. De ser necesario, reprogramaremos sin costo adicional.</p>
+                </details>
+                <details class="tm-faq">
+                    <summary>¿Cómo se maneja la privacidad de mis datos?</summary>
+                    <p>Respetamos la confidencialidad clínica y protegemos su información conforme a buenas prácticas y normativa aplicable.</p>
+                </details>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== CTA final ====== -->
+<section id="cta-tele">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="white" style="margin:0 0 10px;">¿Listo para comenzar?</h2>
+                <p class="white" style="opacity:.9;">Agende su primera cita virtual y dé el primer paso hacia su bienestar.</p>
+                <a href="@Url.Action("Citas","Home")" class="btn btn-appoint" style="margin-top:10px;">Agendar cita virtual</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== Script: flecha y botones desplazan al CENTRO de la sección ====== -->
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    function scrollToCenter(selector){
+      var target = document.querySelector(selector);
+      if (!target) return;
+      var header = document.querySelector('.navbar.navbar-fixed-top');
+      var headerH = header ? header.offsetHeight : 0;
+      var rect = target.getBoundingClientRect();
+      var targetTop = window.pageYOffset + rect.top;
+      var centerY = targetTop + (target.offsetHeight / 2) - (window.innerHeight / 2) - headerH;
+      var maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      var finalY = Math.min(Math.max(0, centerY), maxY);
+      window.scrollTo({ top: finalY, behavior: 'smooth' });
+      target.setAttribute('tabindex', '-1');
+      try { target.focus({ preventScroll: true }); } catch(e) {}
+    }
+
+    var triggers = document.querySelectorAll('#banner .overlay-detail a[href^="#"], #banner .btn-appoint[href^="#"], a.site-link[href^="#"]');
+    for (var i=0; i<triggers.length; i++){
+      triggers[i].addEventListener('click', function(e){
+        var href = this.getAttribute('href') || '';
+        if (href.startsWith('#')){
+          e.preventDefault();
+          scrollToCenter(href);
+        }
+      });
+    }
+  });
+</script>

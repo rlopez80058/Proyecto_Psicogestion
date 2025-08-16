@@ -272,6 +272,8 @@
     <Content Include="Views\Home\Expedientes.cshtml" />
     <Content Include="Views\Home\Pagos.cshtml" />
     <Content Include="Views\Home\Planilla.cshtml" />
+    <Content Include="Views\Home\Telemedicina.cshtml" />
+    <Content Include="Views\Home\TestAutoevaluado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

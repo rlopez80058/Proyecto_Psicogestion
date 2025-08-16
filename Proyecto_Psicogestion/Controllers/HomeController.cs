@@ -79,5 +79,15 @@ namespace Proyecto_Psicogestion.Controllers
             return View();
         }
 
+        public ActionResult Telemedicina()
+        {
+            return View();
+        }
+
+        public ActionResult TestAutoevaluado()
+        {
+            return View();
+        }
+
     }
 }
