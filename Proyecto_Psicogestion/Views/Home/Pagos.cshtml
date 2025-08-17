@@ -85,7 +85,96 @@
             margin-top: 10px;
         }
     }
+
+
+    /* ===== Banner Pagos (aislado para no chocar con otros) ===== */
+    #banner.banner {
+        position: relative;
+        min-height: 650px;
+    }
+
+    #banner .bg-color {
+        min-height: 650px;
+    }
+
+    #banner .banner-info {
+        position: relative;
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 0 140px; /* espacio para flecha */
+        text-align: center;
+        z-index: 2;
+    }
+    /* Fila de botones con flex en lugar de .btn-group para evitar “saltos” */
+    #banner .btn-row {
+        display: flex;
+        align-items: baseline; /* alinea texto por línea base (evita saltos) */
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+    }
+    /* Variante traslúcida para el segundo botón */
+    #banner .btn-ghost {
+        background: rgba(255,255,255,.2);
+        border: 1px solid rgba(255,255,255,.35);
+    }
+
+    #banner .overlay-detail {
+        position: absolute;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%);
+        z-index: 1;
+        text-align: center;
+    }
+
+        #banner .overlay-detail a {
+            display: inline-block;
+            padding: 6px;
+            line-height: 1;
+        }
+
+            #banner .overlay-detail a i {
+                position: static !important;
+                bottom: auto !important;
+                margin: 0;
+                font-size: 38px;
+                color: #fff;
+            }
 </style>
+
+
+<!-- ====== Banner ====== -->
+<section id="banner" class="banner">
+    <div class="bg-color">
+        <div class="container">
+            <div class="row">
+                <div class="banner-info">
+                    <div class="banner-logo text-center">
+                        <img src="~/Content/img/logo.png" class="img-responsive" alt="Psicogestión">
+                    </div>
+                    <div class="banner-text text-center">
+                        <h1 class="white">Pagos</h1>
+                        <p class="white">Pague por SINPE Móvil o transferencia y adjunte su comprobante. Rápido y seguro.</p>
+                        <div class="btn-row" aria-label="Acciones de pagos">
+                            <a href="#form-pago" class="btn btn-appoint" id="btn-ir-form">Registrar un pago</a>
+                            <a href="#metodos" class="btn btn-appoint btn-ghost">Ver datos de cuentas</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay-detail text-center">
+                    <a href="#form-pago" id="arrow-pagos"><i class="fa fa-angle-down"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
 <section id="pagos-hero" class="section-padding" style="padding-top:40px">
     <div class="container">
@@ -93,8 +182,10 @@
             <div class="col-md-7 col-sm-7">
                 <h1 class="ser-title">Pagos</h1>
                 <hr class="botm-line">
-                <p>Realice su pago por <span class="badge-method badge-sinpe">SINPE Móvil</span> o <span class="badge-method badge-transf">transferencia bancaria</span>. Complete el formulario y adjunte el 
-                comprobante para registrar su pago.</p>
+                <p>
+                    Realice su pago por <span class="badge-method badge-sinpe">SINPE Móvil</span> o <span class="badge-method badge-transf">transferencia bancaria</span>. Complete el formulario y adjunte el
+                    comprobante para registrar su pago.
+                </p>
             </div>
             <div class="col-md-5 col-sm-5 text-right">
                 <a href="#form-pago" class="btn btn-appoint btn-wide"><i class="fa fa-credit-card"></i> Registrar un pago</a>
@@ -274,42 +365,74 @@
     </div>
 </section>
 
+
+
 <script>
-(function(){
-    // Copiar al portapapeles
-    document.querySelectorAll('.copy-btn').forEach(function(btn){
-        btn.addEventListener('click', function(){
-            var sel = this.getAttribute('data-copy');
-            var el = document.querySelector(sel);
-            if(!el) return;
-            var text = el.textContent || el.innerText;
-            navigator.clipboard && navigator.clipboard.writeText(text).then(()=>{
-                this.innerHTML = '<i class="fa fa-check"></i>';
-                var self = this; setTimeout(function(){ self.innerHTML = '<i class="fa fa-clone"></i>'; }, 1500);
-            }).catch(function(){
-                alert('No se pudo copiar');
+    (function () {
+        // --- Smooth scroll del banner hacia #form-pago o #metodos ---
+        function scrollToAnchor(sel) {
+            var target = document.querySelector(sel);
+            if (!target) return;
+            var header = document.querySelector('.navbar.navbar-fixed-top');
+            var headerH = header ? header.offsetHeight : 0;
+            var rect = target.getBoundingClientRect();
+            var targetTop = window.pageYOffset + rect.top - (headerH + 20);
+            window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('#banner a[href^="#"]').forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                var href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    scrollToAnchor(href);
+                }
             });
         });
-    });
 
-    // Form demo: intercepta el submit para mostrar mensaje sin backend
-    var form = document.getElementById('frmPago');
-    form.addEventListener('submit', function(e){
-        e.preventDefault();
-        if(!form.checkValidity()){ form.reportValidity && form.reportValidity(); return; }
-        var btn = form.querySelector('button[type="submit"]');
-        btn.disabled = true; btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Enviando…';
-        setTimeout(function(){
-            btn.disabled = false; btn.innerHTML = '<i class="fa fa-paper-plane"></i> Enviar comprobante';
-            // mensaje de éxito
-            var div = document.createElement('div');
-            div.className = 'alert alert-success';
-            div.innerHTML = '<strong>¡Listo!</strong> Tu comprobante fue enviado. Te confirmaremos por correo pronto.';
-            form.parentNode.insertBefore(div, form);
-            form.reset();
-            window.scrollTo({ top: div.offsetTop - 100, behavior: 'smooth' });
-        }, 900);
-    });
-})();
+        // --- Copiar al portapapeles ---
+        document.querySelectorAll('.copy-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var sel = this.getAttribute('data-copy');
+                var el = document.querySelector(sel);
+                if (!el) return;
+                var text = el.textContent || el.innerText;
+                navigator.clipboard && navigator.clipboard.writeText(text).then(() => {
+                    this.innerHTML = '<i class="fa fa-check"></i>';
+                    var self = this;
+                    setTimeout(function () {
+                        self.innerHTML = '<i class="fa fa-clone"></i>';
+                    }, 1500);
+                }).catch(function () {
+                    alert('No se pudo copiar');
+                });
+            });
+        });
+
+        // --- Form demo: intercepta el submit para mostrar mensaje sin backend ---
+        var form = document.getElementById('frmPago');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!form.checkValidity()) {
+                form.reportValidity && form.reportValidity();
+                return;
+            }
+            var btn = form.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Enviando…';
+            setTimeout(function () {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa fa-paper-plane"></i> Enviar comprobante';
+                // mensaje de éxito
+                var div = document.createElement('div');
+                div.className = 'alert alert-success';
+                div.innerHTML = '<strong>¡Listo!</strong> Tu comprobante fue enviado. Te confirmaremos por correo pronto.';
+                form.parentNode.insertBefore(div, form);
+                form.reset();
+                window.scrollTo({ top: div.offsetTop - 100, behavior: 'smooth' });
+            }, 900);
+        });
+    })();
 </script>
+
 

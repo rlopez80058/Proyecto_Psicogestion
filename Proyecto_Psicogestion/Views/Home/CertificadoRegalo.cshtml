@@ -3,6 +3,104 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<style>
+    /* ===== Banner Gift (aislado) ===== */
+    #banner.banner {
+        position: relative;
+        min-height: 650px;
+    }
+
+    #banner .bg-color {
+        min-height: 650px;
+    }
+
+    #banner .banner-info {
+        position: relative;
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 0 140px; /* espacio para flecha */
+        text-align: center;
+        z-index: 2;
+    }
+
+    /* Fila de botones estable (sin .btn-group) */
+    #banner .btn-row {
+        display: flex;
+        align-items: baseline; /* alinea por línea base del texto */
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+    }
+
+    /* Botón secundario traslúcido */
+    #banner .btn-ghost {
+        background: rgba(255,255,255,.2);
+        border: 1px solid rgba(255,255,255,.35);
+    }
+
+    /* Flecha inferior */
+    #banner .overlay-detail {
+        position: absolute;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%);
+        z-index: 1;
+        text-align: center;
+    }
+
+        #banner .overlay-detail a {
+            display: inline-block;
+            padding: 6px;
+            line-height: 1;
+        }
+
+            #banner .overlay-detail a i {
+                position: static !important;
+                bottom: auto !important;
+                margin: 0;
+                font-size: 38px;
+                color: #fff;
+            }
+
+    /* Anclas con navbar fija */
+    #gift-form, #gift-preview {
+        scroll-margin-top: 90px;
+    }
+</style>
+
+
+<!-- ====== Banner ====== -->
+<section id="banner" class="banner">
+    <div class="bg-color">
+        <div class="container">
+            <div class="row">
+                <div class="banner-info">
+                    <div class="banner-logo text-center">
+                        <img src="~/Content/img/logo.png" class="img-responsive" alt="Psicogestión">
+                    </div>
+                    <div class="banner-text text-center">
+                        <h1 class="white">Certificados de regalo</h1>
+                        <p class="white">Regale bienestar digital: personalice monto, mensaje y diseño.</p>
+                        <div class="btn-row" aria-label="Acciones certificados">
+                            <a href="#gift-form" class="btn btn-appoint" id="btn-ir-form">Comprar certificado</a>
+                            <a href="#gift-preview" class="btn btn-appoint btn-ghost">Ver vista previa</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay-detail text-center">
+                    <a href="#gift-form" id="arrow-gift"><i class="fa fa-angle-down"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 <!-- Hero / Encabezado -->
 <section class="section-padding" id="gift-hero" style="padding-top:40px">
     <div class="container">
@@ -134,10 +232,14 @@
                         </div>
                     </div>
 
-                    <div class="form-action">
-                        <button type="submit" class="btn btn-form"><i class="fa fa-credit-card"></i> Comprar certificado</button>
-                        <a href="#gift-preview" class="btn btn-appoint" style="margin-left:8px">Ver vista previa</a>
+                    <div class="form-action" style="display:flex; align-items:baseline; gap:30px;">
+                        <button type="submit" class="btn btn-form">
+                            <i class="fa fa-credit-card"></i> Comprar certificado
+                        </button>
+                        <a href="#gift-preview" class="btn btn-appoint">Ver vista previa</a>
                     </div>
+
+
                 }
 
                 <div class="space" style="height:24px"></div>
@@ -174,6 +276,29 @@
 <!-- Script de vista previa / formateo -->
 <script>
     (function () {
+        // --- Smooth scroll del banner hacia #gift-form o #gift-preview ---
+        function scrollToAnchor(sel) {
+            var target = document.querySelector(sel);
+            if (!target) return;
+            var header = document.querySelector('.navbar.navbar-fixed-top');
+            var headerH = header ? header.offsetHeight : 0;
+            var rect = target.getBoundingClientRect();
+            var targetTop = window.pageYOffset + rect.top - (headerH + 20);
+            window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+        }
+
+        // Enlaces del banner (botones + flecha)
+        document.querySelectorAll('#banner a[href^="#"]').forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                var href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    scrollToAnchor(href);
+                }
+            });
+        });
+
+        // --- Tu lógica de vista previa / formateo (igual que tenías) ---
         function crCRC(n) {
             try {
                 return new Intl.NumberFormat('es-CR', { style: 'currency', currency: 'CRC', maximumFractionDigits: 0 }).format(n || 0);
@@ -197,29 +322,36 @@
 
         function updatePreview() {
             var monto = parseInt($monto.value || '0', 10);
-            document.getElementById('prev-monto').textContent = crCRC(monto);
-            document.getElementById('prev-nombre').textContent = $dest.value || 'Nombre del destinatario';
-            document.getElementById('prev-remitente').textContent = $remi.value || 'Tu nombre';
-            document.getElementById('prev-mensaje').textContent = $msg.value || 'Mensaje personalizado aparecerá aquí…';
+            var elMonto = document.getElementById('prev-monto');
+            var elNombre = document.getElementById('prev-nombre');
+            var elRem = document.getElementById('prev-remitente');
+            var elMsg = document.getElementById('prev-mensaje');
+            if (elMonto) elMonto.textContent = crCRC(monto);
+            if (elNombre) elNombre.textContent = $dest.value || 'Nombre del destinatario';
+            if (elRem) elRem.textContent = $remi.value || 'Tu nombre';
+            if (elMsg) elMsg.textContent = $msg.value || 'Mensaje personalizado aparecerá aquí…';
 
             var theme = document.getElementById('gift-preview-theme');
-            switch ($plant.value) {
-                case 'minimal':
-                    theme.style.background = 'linear-gradient(135deg,#4e555b,#adb5bd)';
-                    break;
-                case 'festivo':
-                    theme.style.background = 'linear-gradient(135deg,#ff8a00,#e52e71)';
-                    break;
-                default:
-                    theme.style.background = 'linear-gradient(135deg,#0cb8b6,#49d3d1)';
+            if (theme) {
+                switch ($plant.value) {
+                    case 'minimal':
+                        theme.style.background = 'linear-gradient(135deg,#4e555b,#adb5bd)';
+                        break;
+                    case 'festivo':
+                        theme.style.background = 'linear-gradient(135deg,#ff8a00,#e52e71)';
+                        break;
+                    default:
+                        theme.style.background = 'linear-gradient(135deg,#0cb8b6,#49d3d1)';
+                }
             }
 
             var compra = new Date();
             var vig = addMonths(compra, 12);
-            document.getElementById('prev-vigencia').textContent = fmtDate(vig);
+            var elVig = document.getElementById('prev-vigencia');
+            if (elVig) elVig.textContent = fmtDate(vig);
 
-            // Código ficticio
-            document.getElementById('prev-codigo').textContent = 'PG-' + (Math.random().toString(36).slice(2, 6).toUpperCase()) + '-' + (Math.random().toString(36).slice(2, 6).toUpperCase());
+            var elCod = document.getElementById('prev-codigo');
+            if (elCod) elCod.textContent = 'PG-' + (Math.random().toString(36).slice(2, 6).toUpperCase()) + '-' + (Math.random().toString(36).slice(2, 6).toUpperCase());
         }
 
         ['input', 'change', 'keyup'].forEach(function (evt) {
@@ -228,7 +360,6 @@
             });
         });
 
-        // Valor por defecto al cargar
         document.addEventListener('DOMContentLoaded', updatePreview);
         updatePreview();
     })();
