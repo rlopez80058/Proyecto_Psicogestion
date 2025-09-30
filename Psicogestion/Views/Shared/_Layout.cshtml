@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title - Psicogestión</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/Content/style.css" />
+    <link rel="stylesheet" href="~/Content/custom.css" />
+
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                        <img src="~/Content/img/logo.png" alt="Logo Psicogestión" class="logo-navbar" />
+                    </a>
+
+                </div>
+
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="@(ViewContext.RouteData.Values["controller"] as string == "Home" && (ViewContext.RouteData.Values["action"] as string) == "Index" ? "active" : "")">
+                            <a href="@Url.Action("Index", "Home")">Home</a>
+                        </li>
+
+                        <li class="@(ViewContext.RouteData.Values["controller"] as string == "Home" && (ViewContext.RouteData.Values["action"] as string) == "Citas" ? "active" : "")">
+                            <a href="@Url.Action("Citas", "Home")">Citas</a>
+                        </li>
+
+                        <li class="@(ViewContext.RouteData.Values["controller"] as string == "Home" && (ViewContext.RouteData.Values["action"] as string) == "Contacto" ? "active" : "")">
+                            <a href="@Url.Action("Contacto", "Home")">Contacto</a>
+                        </li>
+
+                        <!-- Pacientes (dropdown) -->
+                        <li class="dropdown @(ViewContext.RouteData.Values["controller"] as string == "Pacientes" ? "active" : "")">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Pacientes <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Pagos", "Home")">Pagos</a></li>
+                                <li><a href="@Url.Action("TestAutoevaluado", "Home")">Test autoevaluado</a></li>
+                                <li><a href="@Url.Action("CertificadoRegalo", "Home")">Certificado de regalo</a></li>
+                                <li><a href="@Url.Action("Telemedicina", "Home")">Telemedicina</a></li>
+                                <li><a href="@Url.Action("Comentarios", "Home")">Testimonios</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestión (solo dropdown) -->
+                        <li class="dropdown @(ViewContext.RouteData.Values["controller"] as string == "Gestion" ? "active" : "")">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Gestión <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Planilla", "Home")">Planillas</a></li>
+                                <li><a href="@Url.Action("Expedientes", "Home")">Expedientes</a></li>
+                                <li><a href="@Url.Action("Usuarios", "Home")">Usuarios</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido de cada vista -->
+    <div style="margin-top: 100px;">
+        @RenderBody()
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="top-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 marb20">
+                        <div class="ftr-tle">
+                            <h4 class="white no-padding">Sobre Nosotros</h4>
+                        </div>
+                        <div class="info-sec">
+                            <p>Psicogestión nació con el objetivo de brindar herramientas accesibles, profesionales y humanas para acompañarte en tu salud mental..</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 marb20">
+                        <div class="ftr-tle">
+                            <h4 class="white no-padding">Quick Links</h4>
+                        </div>
+                        <div class="info-sec">
+                            <ul class="quick-info">
+                                <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-circle"></i> Home</a></li>
+                                <li><a href="@Url.Action("Citas", "Home")"><i class="fa fa-circle"></i> Citas</a></li>
+                                <li><a href="@Url.Action("Contacto", "Home")"><i class="fa fa-circle"></i> Contacto</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 marb20">
+                        <div class="ftr-tle">
+                            <h4 class="white no-padding">Síguenos</h4>
+                        </div>
+                        <div class="info-sec">
+                            <ul class="social-icon">
+                                <li class="bglight-blue"><i class="fa fa-facebook"></i></li>
+                                <li class="bgred"><i class="fa fa-google-plus"></i></li>
+                                <li class="bgdark-blue"><i class="fa fa-linkedin"></i></li>
+                                <li class="bglight-blue"><i class="fa fa-twitter"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-line">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        © 2025 Psicogestión. Todos los derechos reservados.
+                        <div class="credits">
+                            Sitio diseñado con ❤ usando la plantilla <a href="https://bootstrapmade.com/" target="_blank" rel="noopener">Medilab</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón flotante de Chat -->
+    <div id="chatbot-float" style="position: fixed; bottom: 25px; right: 25px; z-index: 999;">
+        <button class="btn btn-form" onclick="toggleChatbot()" style="border-radius: 50%; width: 60px; height: 60px; padding: 0; font-size: 22px;">
+            💬
+        </button>
+    </div>
+
+    <!-- Ventana emergente del Chatbot -->
+    <div id="chatbot-popup" style="display: none; position: fixed; bottom: 90px; right: 25px; width: 350px; height: 500px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2); overflow: hidden; z-index: 999;">
+        <iframe src="https://your-chatbot-url.com" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+
+    <script>
+        function toggleChatbot() {
+            const popup = document.getElementById('chatbot-popup');
+            popup.style.display = (popup.style.display === 'none') ? 'block' : 'none';
+        }
+    </script>
+
+    <!-- Scripts (orden correcto) -->
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <!-- Hover para dropdowns (solo desktops ≥768px) -->
+    <script>
+        (function () {
+            function enableHoverDropdowns() {
+                if (window.matchMedia("(min-width: 768px)").matches) {
+                    $('.navbar .dropdown').off('mouseenter mouseleave').hover(
+                        function () { $(this).addClass('open'); },
+                        function () { $(this).removeClass('open'); }
+                    );
+                } else {
+                    // En móviles volvemos al comportamiento por click
+                    $('.navbar .dropdown').off('mouseenter mouseleave');
+                }
+            }
+            $(document).ready(enableHoverDropdowns);
+            $(window).on('resize', enableHoverDropdowns);
+        })();
+    </script>
+
+    <!-- Tu JS -->
+    <script src="~/Scripts/custom.js"></script>
+</body>
+</html>

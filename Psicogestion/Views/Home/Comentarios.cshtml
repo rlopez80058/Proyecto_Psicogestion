@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "Comentarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Mantén el banner centrado y con buen espacio */
+    #banner .banner-info {
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 0;
+    }
+
+    /* Coloca la flecha DEBAJO del botón (en flujo normal) */
+    #banner .overlay-detail {
+        margin-top: 12px; /* separación respecto al botón */
+        text-align: center;
+    }
+
+        #banner .overlay-detail a {
+            display: inline-block;
+            padding: 6px; /* área de click cómoda */
+            line-height: 1;
+        }
+
+            #banner .overlay-detail a i {
+                position: static !important; /* anula el absolute del tema */
+                bottom: auto !important;
+                margin: 0;
+                font-size: 38px;
+                color: #fff;
+            }
+
+    /* Suavizar desplazamiento y evitar que la navbar tape el inicio del formulario */
+    html {
+        scroll-behavior: auto;
+    }
+
+    #contacto {
+        scroll-margin-top: 90px;
+    }
+</style>
+
+<!-- Banner para encabezado -->
+<section id="banner" class="banner">
+    <div class="bg-color">
+        <div class="container">
+            <div class="row">
+                <div class="banner-info">
+                    <div class="banner-logo text-center">
+                        <img src="~/Content/img/logo.png" class="img-responsive">
+                    </div>
+                    <div class="banner-text text-center">
+                        <h1 class="white">Testimonios</h1>
+                        <p>
+                            Puede compartir su experiencia con la psicóloga y ayudar a otros a conocer más sobre el acompañamiento.
+                        </p>
+                        <a href="#contacto" class="btn btn-appoint">Ir al formulario</a>
+
+                    </div>
+                    <div class="overlay-detail text-center">
+                        <a href="#contacto"><i class="fa fa-angle-down"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Formulario para comentarios -->
+<section id="form-comentario" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <!-- Título centrado -->
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <h2 class="service-title" style="margin-bottom: 25px;">Su opinión es valiosa</h2>
+                <p class="sub-title" style="margin-bottom: 35px;">Complete los campos para dejar un mensaje de agradecimiento o comentario</p>
+            </div>
+
+            <!-- Formulario -->
+            <div class="col-md-6 col-md-offset-3">
+                <form method="post" action="@Url.Action("EnviarComentario", "Comentarios")" class="card-user">
+                    <div class="form-group">
+                        <label for="Nombre">Nombre</label>
+                        <input type="text" class="form-control br-radius-zero" id="Nombre" name="Nombre" placeholder="Su nombre (opcional)" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Comentario">Comentario</label>
+                        <textarea class="form-control br-radius-zero" id="Comentario" name="Comentario" rows="5" placeholder="Escriba su mensaje aquí..." required></textarea>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <label for="Calificacion">¿Cómo calificaría su experiencia?</label>
+                        <br />
+                        <span style="font-size: 24px; color: #f1c40f;">
+                            ★ ★ ★ ★ ★
+                        </span>
+                        <select name="Calificacion" class="form-control br-radius-zero" style="margin-top: 10px;" required>
+                            <option value="">Seleccione una opción</option>
+                            <option value="5">Excelente (5 estrellas)</option>
+                            <option value="4">Muy buena (4 estrellas)</option>
+                            <option value="3">Buena (3 estrellas)</option>
+                            <option value="2">Regular (2 estrellas)</option>
+                            <option value="1">Mala (1 estrella)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-form btn-block">Enviar comentario</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
